@@ -6,9 +6,7 @@
     <!-- have full network access -->
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- CONFIRM_FULL_BACKUP -->
-    <uses-permission android:name="android.permission.CONFIRM_FULL_BACKUP" />
-
+   
     <!-- BACKUP -->
     <uses-permission android:name="android.permission.BACKUP" />
 
