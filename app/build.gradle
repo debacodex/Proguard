@@ -44,6 +44,9 @@ signingConfigs {
         }
         debug {
             storeFile file("release_key.jks")
+            storePassword "debashis"
+            keyAlias "debashis"
+            keyPassword "debashis"
 			signingConfig signingConfigs.debug  
         }
 }
@@ -58,9 +61,9 @@ signingConfigs {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
 		debug {
-            minifyEnabled true
-			shrinkResources true
-			zipAlignEnabled true
+            minifyEnabled false
+			shrinkResources false
+			zipAlignEnabled false
 			
 			//resguardEnabled true
 			 signingConfig signingConfigs.debug // Assuming you have a release signing config
