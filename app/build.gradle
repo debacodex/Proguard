@@ -9,19 +9,18 @@ import com.github.megatronking.stringfog.plugin.StringFogMode
 
 	
 stringfog {
-    // 必要：加解密库的实现类路径，需和上面配置的加解密算法库一致。
+    
     implementation 'com.github.megatronking.stringfog.xor.StringFogImpl'
-    // 可选：StringFog会自动尝试获取packageName，如果遇到获取失败的情况，可以显式地指定。
+    
     //packageName 'com.github.megatronking.stringfog.app'
-    // 可选：加密开关，默认开启。
+    
     enable true
-    // 可选：指定需加密的代码包路径，可配置多个，未指定将默认全部加密。
+
     fogPackages = ['com.github.debacodex']
-    // 可选（3.0版本新增）：指定密钥生成器，默认使用长度8的随机密钥（每个字符串均有不同随机密钥）,
-    // 也可以指定一个固定的密钥：HardCodeKeyGenerator("This is a key")
+    
+
     kg new RandomKeyGenerator()
-    // 可选（4.0版本新增）：用于控制字符串加密后在字节码中的存在形式, 默认为base64，
-    // 也可以使用text或者bytes
+    
     mode StringFogMode.bytes
 }
 
@@ -30,7 +29,7 @@ namespace 'com.github.debacodex'
 compileSdk 30
 defaultConfig {
 applicationId "com.github.debacodex"
-minSdk 30
+minSdk 23
 targetSdk 30
 versionCode 1
 versionName "1.0"
