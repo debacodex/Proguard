@@ -10,32 +10,33 @@ import com.github.megatronking.stringfog.plugin.StringFogMode
 
 	
 stringfog {
-    
+    // 必要：加解密库的实现类路径，需和上面配置的加解密算法库一致。
     implementation 'com.github.megatronking.stringfog.xor.StringFogImpl'
-    
+    // 可选：StringFog会自动尝试获取packageName，如果遇到获取失败的情况，可以显式地指定。
     //packageName 'com.github.megatronking.stringfog.app'
-    
+    // 可选：加密开关，默认开启。
     enable true
-
+    // 可选：指定需加密的代码包路径，可配置多个，未指定将默认全部加密。
     fogPackages = ['com.github.debacodex']
-    
-
+    // 可选（3.0版本新增）：指定密钥生成器，默认使用长度8的随机密钥（每个字符串均有不同随机密钥）,
+    // 也可以指定一个固定的密钥：HardCodeKeyGenerator("This is a key")
     kg new RandomKeyGenerator()
-    
+    // 可选（4.0版本新增）：用于控制字符串加密后在字节码中的存在形式, 默认为base64，
+    // 也可以使用text或者bytes
     mode StringFogMode.bytes
 }
 
 android {
-     namespace 'com.github.debacodex'
-     compileSdk 30
+    compileSdkVersion 30
+    buildToolsVersion "30.0.0"
+
     defaultConfig {
-       applicationId "com.github.debacodex"
-       minSdk 23
-       targetSdk 30
-       versionCode 1
-       versionName "1.0"
+        applicationId "com.github.debacodex"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
     }
-	
 signingConfigs {
         release {
             storeFile file("release_key.jks")
@@ -43,56 +44,24 @@ signingConfigs {
             keyAlias "debashis"
             keyPassword "debashis"
         }
-        debug {
-            storeFile file("release_key.jks")
-			storePassword "debashis"
-            keyAlias "debashis"
-            keyPassword "debashis"
-        }
+     /*   debug {
+            storeFile file("debug.keystore")
+        }*/
     }
 	
-	
-buildTypes {
-        debug {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.debug
-        }
-        
+    buildTypes {
         release {
             minifyEnabled true
-            shrinkResources true
+			shrinkResources true
+			zipAlignEnabled true
+			
+			//resguardEnabled true
+			signingConfig signingConfigs.release // Assuming you have a release signing config
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
         }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    lintOptions {
-        abortOnError false
+		
     }
 }
-
-dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-	implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
-	implementation 'com.github.hackware1993:MagicIndicator:1.7.0' // for androidx
-    implementation 'com.github.bumptech.glide:glide:4.15.1'
-    implementation 'com.google.firebase:firebase-auth:19.3.2'
-    implementation 'com.google.android.gms:play-services-auth:18.1.0'
-    implementation 'com.google.firebase:firebase-database:19.5.1'
-    implementation 'com.android.volley:volley:1.2.1'
-    implementation 'com.google.firebase:firebase-messaging:20.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
-	implementation 'com.github.megatronking.stringfog:xor:4.0.1'
-	//implementation 'com.github.megatronking.stringfog:interface:4.0.1'
-}
-//apply plugin  'com.google.gms.google-services'
 andResGuard {
   //   mappingFile =  file("./resource_mapping.txt")
     mappingFile = null
@@ -133,7 +102,8 @@ andResGuard {
 		"resources.arsc"
     ]
     sevenzip {
-            // path = "/storage/emulated/0/ A hack File/7z2501-arm64.exe"
+        artifact = 'com.github.Leon406.AndResGuard:SevenZip:1.2.20'
+          // path = "/storage/emulated/0/ A hack File/7z2501-x64.exe"
     
     }
 
@@ -141,11 +111,31 @@ andResGuard {
     * Optional: if finalApkBackupPath is null, AndResGuard will overwrite final apk
     * to the path which assemble[Task] write to
     **/
-     //finalApkBackupPath = "${project.rootDir}/final.apk"
+     finalApkBackupPath = "${project.rootDir}/final.apk"
 
     /**
     * Optional: Specifies the name of the message digest algorithm to user when digesting the entries of JAR file
     * Only works in V1signing, default value is "SHA-1"
     **/
-   // digestalg = "SHA-256"
+    digestalg = "SHA-256"
 }
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+	implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+	implementation 'com.github.hackware1993:MagicIndicator:1.7.0' // for androidx
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+    implementation 'com.google.firebase:firebase-auth:19.3.2'
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
+    implementation 'com.google.firebase:firebase-database:19.5.1'
+    implementation 'com.android.volley:volley:1.2.1'
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+	implementation 'com.github.megatronking.stringfog:xor:4.0.1'
+	//implementation 'com.github.megatronking.stringfog:interface:4.0.1'
+		
+
+
+}
+//apply plugin  'com.google.gms.google-services'
