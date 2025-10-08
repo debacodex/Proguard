@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ main ]
 env:
-  RELEASE_STORE_FILE: release_key.jks
+  RELEASE_STORE_FILE: myrelease_key.jks
 
 jobs:
   build:
