@@ -45,6 +45,9 @@ signingConfigs {
         }
         debug {
             storeFile file("release_key.jks")
+			storePassword "debashis"
+            keyAlias "debashis"
+            keyPassword "debashis"
         }
     }
 	
