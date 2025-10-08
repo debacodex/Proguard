@@ -29,5 +29,4 @@ jobs:
       with:
         files: app/build/outputs/apk/release/*.apk
         generate_release_notes: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.DEBA_TOKEN }}
+        token: ${{ secrets.RELEASE_TOKEN }}  # Use PAT instead of GITHUB_TOKEN
