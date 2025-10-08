@@ -39,12 +39,15 @@ android {
     }
 signingConfigs {
         release {
-            storeFile file(System.getenv('RELEASE_STORE_FILE') ?: "your_keystore.jks")
-            storePassword System.getenv('RELEASE_STORE_PASSWORD') ?: ""
-            keyAlias System.getenv('RELEASE_KEY_ALIAS') ?: ""
-            keyPassword System.getenv('RELEASE_KEY_PASSWORD') ?: ""
+            storeFile file("release_key.jks")
+            storePassword "debashis"
+            keyAlias "debashis"
+            keyPassword "debashis"
         }
-}
+     /*   debug {
+            storeFile file("debug.keystore")
+        }*/
+    }
     buildTypes {
         release {
             minifyEnabled true
