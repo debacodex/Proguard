@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'stringfog'
+apply plugin: 'AndResGuard'
 
 
 
@@ -25,16 +26,27 @@ stringfog {
 }
 
 android {
-namespace 'com.github.debacodex'
-compileSdk 30
-defaultConfig {
-applicationId "com.github.debacodex"
-minSdk 23
-targetSdk 30
-versionCode 1
-versionName "1.0"
+     namespace 'com.github.debacodex'
+     compileSdk 30
+    defaultConfig {
+       applicationId "com.github.debacodex"
+       minSdk 23
+       targetSdk 30
+       versionCode 1
+       versionName "1.0"
     }
-
+signingConfigs {
+        release {
+            storeFile file("release_key.jks")
+            storePassword "debashis"
+            keyAlias "debashis"
+            keyPassword "debashis"
+        }
+        debug {
+            storeFile file("release_key.jks")
+			signingConfig signingConfigs.debug  
+        }
+}
     buildTypes {
         release {
             minifyEnabled true
@@ -42,9 +54,18 @@ versionName "1.0"
 			zipAlignEnabled true
 			
 			//resguardEnabled true
-			// signingConfig signingConfigs.release // Assuming you have a release signing config
+			 signingConfig signingConfigs.release // Assuming you have a release signing config
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+		debug {
+            minifyEnabled true
+			shrinkResources true
+			zipAlignEnabled true
+			
+			//resguardEnabled true
+			 signingConfig signingConfigs.debug // Assuming you have a release signing config
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+		}
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -70,8 +91,62 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
 	implementation 'com.github.megatronking.stringfog:xor:4.0.1'
 	//implementation 'com.github.megatronking.stringfog:interface:4.0.1'
-		
-
-
 }
 //apply plugin  'com.google.gms.google-services'
+andResGuard {
+  //   mappingFile =  file("./resource_mapping.txt")
+    mappingFile = null
+    use7zip = false
+    useSign = true
+    // It will keep the origin path of your resources when it's true
+    keepRoot = false
+    // If set, name column in arsc those need to proguard will be kept to this value
+    fixedResName = "arg"
+    // It will merge the duplicated resources, but don't rely on this feature too much.
+    // it's always better to remove duplicated resource from repo
+    mergeDuplicatedRes = true
+    whiteList = [
+	    // for your icon
+        "R.drawable.icon",
+        "R.mipmap.ic_launcher",
+        "R.mipmap.ic_launcher_round",
+        "R.mipmap.ic_launcher_foreground",
+   
+        // 保持所有ID不被混淆
+        "R.id.*",
+        // 保持自定义view名称
+        "R.layout.*",
+        // 保持anim名称
+        "R.anim.*",
+        // 保持color名称  
+        "R.color.*",
+        // 保持style名称
+        "R.style.*",
+        // 保持attr名称
+        "R.attr.*"
+    ]
+    compressFilePattern = [
+        "*.png",
+        "*.jpg",
+        "*.jpeg",
+        "*.gif",
+		"resources.arsc"
+    ]
+    sevenzip {
+        artifact = 'com.tencent.mm:SevenZip:1.2.21'
+            // path = "/storage/emulated/0/ A hack File/7z2501-arm64.exe"
+    
+    }
+
+    /**
+    * Optional: if finalApkBackupPath is null, AndResGuard will overwrite final apk
+    * to the path which assemble[Task] write to
+    **/
+     //finalApkBackupPath = "${project.rootDir}/final.apk"
+
+    /**
+    * Optional: Specifies the name of the message digest algorithm to user when digesting the entries of JAR file
+    * Only works in V1signing, default value is "SHA-1"
+    **/
+   // digestalg = "SHA-256"
+}
