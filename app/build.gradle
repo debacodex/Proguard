@@ -1,4 +1,3 @@
-apply plugin: 'com.android.application'
 apply plugin: 'stringfog'
 apply plugin: 'AndResGuard'
 
@@ -130,7 +129,7 @@ andResGuard {
 		"resources.arsc"
     ]
     sevenzip {
-        artifact = 'com.github.shwenzhang.AndResGuard:SevenZip:1.2.17'
+        artifact = 'com.github.Leon406.AndResGuard:SevenZip:1.2.20'
             // path = "/storage/emulated/0/ A hack File/7z2501-arm64.exe"
     
     }
