@@ -1,72 +1,35 @@
-name: Android CI/CD Release
+name: Android APK Release
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+
 jobs:
-  build:
+  build-and-release:
     runs-on: ubuntu-latest
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set up JDK 17
+    - name: Set up JDK 11
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
+        java-version: '11'
         distribution: 'temurin'
-
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
 
     - name: Make gradlew executable
       run: chmod +x ./gradlew
 
-    - name: Build APK
+    - name: Build Release APK
       run: ./gradlew assembleRelease
 
-    - name: Build AAB (Optional - for Play Store)
-      run: ./gradlew bundleRelease
-
-    - name: Upload APK artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: app-apk
-        path: app/build/outputs/apk/release/app-release.apk
-        retention-days: 5
-
-    - name: Upload AAB artifacts (Optional)
-      uses: actions/upload-artifact@v4
-      with:
-        name: app-aab
-        path: app/build/outputs/bundle/release/app-release.aab
-        retention-days: 5
-
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
-    
-    steps:
-    - name: Download APK artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: app-apk
-
-    - name: Download AAB artifact (Optional)
-      uses: actions/download-artifact@v4
-      with:
-        name: app-aab
-
-    - name: Create Release
+    - name: Create Release and Upload APK
       uses: softprops/action-gh-release@v2
       with:
-        files: |
-          app-release.apk
-          app-release.aab
+        files: app/build/outputs/apk/release/*.apk
         generate_release_notes: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
