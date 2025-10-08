@@ -1,11 +1,11 @@
 name: Android CI/CD Release
 
 on:
+on:
   push:
-    tags:
-      - 'v*'  # Trigger on version tags like v1.0.0, v1.2.3, etc.
-  workflow_dispatch:  # Allow manual triggering
-
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 jobs:
   build:
     runs-on: ubuntu-latest
