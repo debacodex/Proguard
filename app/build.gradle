@@ -35,6 +35,7 @@ android {
        versionCode 1
        versionName "1.0"
     }
+	
 signingConfigs {
         release {
             storeFile file("release_key.jks")
@@ -43,33 +44,26 @@ signingConfigs {
             keyPassword "debashis"
         }
         debug {
-            storeFile file("release_key.jks")
-            storePassword "debashis"
-            keyAlias "debashis"
-            keyPassword "debashis"
-			signingConfig signingConfigs.debug  
+            storeFile file("debug.keystore")
         }
-}
-    buildTypes {
+    }
+	
+	
+buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+        
         release {
             minifyEnabled true
-			shrinkResources true
-			zipAlignEnabled true
-			
-			//resguardEnabled true
-			 signingConfig signingConfigs.release // Assuming you have a release signing config
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
-		debug {
-            minifyEnabled false
-			shrinkResources false
-			zipAlignEnabled false
-			
-			//resguardEnabled true
-			 signingConfig signingConfigs.debug // Assuming you have a release signing config
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-		}
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
