@@ -103,7 +103,7 @@ andResGuard {
     ]
     sevenzip {
         artifact = 'com.github.Leon406.AndResGuard:SevenZip:1.2.20'
-          // path = "/storage/emulated/0/ A hack File/7z2501-x64.exe"
+           path = "SevenZip-linux-x86_64.exe"
     
     }
 
