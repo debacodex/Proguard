@@ -1,39 +1,60 @@
-name: Simple AndResGuard Release
+name: Build and Release APK with AndResGuard
 
 on:
   push:
-    tags: ['v*']
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+env:
+  ANDRESGUARD_VERSION: '2.2.3'
+
 jobs:
-  build:
+  build-and-release:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up JDK
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
-        java-version: '11'
-        
-    - name: Build APK
-      run: ./gradlew assembleRelease
-      
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
     - name: Download AndResGuard
       run: |
-        wget https://github.com/shwenzhang/AndResGuard/releases/download/2.2.3/AndResGuard-cli-2.2.3.jar
-        
-    - name: Obfuscate APK
+        # Fixed download URL
+        wget https://github.com/shwenzhang/AndResGuard/releases/download/$ANDRESGUARD_VERSION/AndResGuard-cli-$ANDRESGUARD_VERSION.jar -O AndResGuard.jar
+        # Alternative download if the above fails
+        # wget https://github.com/shwenzhang/AndResGuard/releases/download/$ANDRESGUARD_VERSION/AndResGuard-cli-$ANDRESGUARD_VERSION.jar
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x ./gradlew
+
+    - name: Build APK
+      run: ./gradlew assembleRelease
+
+    - name: Obfuscate APK with AndResGuard
       run: |
-        java -jar AndResGuard-cli-2.2.3.jar \
-          app/build/outputs/apk/release/app-release.apk \
-          -out app/build/outputs/apk/obfuscated/
-          
-    - name: Upload Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        token: ${{ secrets.RELEASE_TOKEN }}
+        java -jar AndResGuard.jar \
+          ./app/build/outputs/apk/release/app-release.apk \
+          -config config.xml \
+          -out ./app/build/outputs/apk/obfuscated/
+
+    - name: Upload APK artifacts
+      uses: actions/upload-artifact@v4
       with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./app/build/outputs/apk/obfuscated/app-release_obfuscated.apk
-        asset_name: app-obfuscated.apk
-        asset_content_type: application/vnd.android.package-archive
+        name: obfuscated-apk
+        path: app/build/outputs/apk/obfuscated/*.apk
+        retention-days: 7
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: app/build/outputs/apk/obfuscated/*.apk
