@@ -52,7 +52,7 @@ signingConfigs {
         release {
             minifyEnabled true
 			shrinkResources true
-			zipAlignEnabled true
+			//zipAlignEnabled true
 			
 			//resguardEnabled true
 			signingConfig signingConfigs.release // Assuming you have a release signing config
