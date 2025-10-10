@@ -1,16 +1,14 @@
-name: Build Flavors with AndResGuard
+name: Build and Release with AndResGuard
 
 on:
   push:
-    tags:
-      - '*'
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  build-flavors:
+  build-and-release:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        flavor: [production, staging, development]
     
     steps:
     - name: Checkout code
@@ -20,54 +18,49 @@ jobs:
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
+        java-version: '11'
 
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
 
     - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew
-      
-      
-     - name: Build APK
-      run: ./gradlew assemble ${{ matrix.flavor }}Release
-      
-      
-  
 
-    - name: Obfuscate APK
+    - name: Build APK
+      run: ./gradlew assembleRelease
+
+   # - name: Download AndResGuard
+    #  run: |
+     #   wget https://github.com/shwenzhang/AndResGuard/releases/download/1.2.21/AndResGuard-cli-1.2.21.jar -O AndResGuard.jar
+
+    - name: Create AndResGuard configuration
+      run: |
+        cat > config.xml << 'EOF'
+        <?xml version="1.0" encoding="UTF-8"?>
+        <resproguard>
+            <keepmapping value="mapping.txt"/>
+            <keepresource type="drawable" name="ic_launcher*"/>
+            <keepresource type="mipmap" name="ic_launcher*"/>
+            <keepresource type="layout" name="activity_main*"/>
+            <keepresource type="string" name="app_name"/>
+            <keepresource type="color" name="colorPrimary"/>
+        </resproguard>
+        EOF
+
+    - name: Run AndResGuard
       run: |
         java -jar AndResGuard.jar \
-          app/build/outputs/apk/${{ matrix.flavor }}/release/app-${{ matrix.flavor }}-release.apk \
+          app/build/outputs/apk/release/app-release.apk \
           -config config.xml \
-          -out app/build/outputs/apk/${{ matrix.flavor }}/release/obfuscated \
-          -signatureType v2
+          -out app/build/outputs/apk/release/obfuscated
 
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ matrix.flavor }}-obfuscated-apk
-        path: app/build/outputs/apk/${{ matrix.flavor }}/release/obfuscated/*.apk
-
-  release:
-    needs: build-flavors
-    runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/')
-    
-    steps:
-    - name: Download all artifacts
-      uses: actions/download-artifact@v4
-      with:
-        path: ./artifacts
-
-    - name: Create Release
+    - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          artifacts/**/*.apk
+          app/build/outputs/apk/release/obfuscated/app-release_obfuscated.apk
         body: |
-          # Release ${{ github.ref_name }}
-          
-          ## Obfuscated APK Files
-          - All APKs processed with AndResGuard for resource obfuscation
-          - Reduced APK size through resource compression
-          - Maintained compatibility with resource access
+          ## Release Notes
+          - APK processed with AndResGuard for resource obfuscation
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
