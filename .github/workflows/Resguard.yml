@@ -20,13 +20,16 @@ jobs:
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
-        java-version: '11'
 
-     - name: Build APK
-      run: ./gradlew assemble${{ matrix.flavor }}Release
-      
-      - name: Grant execute permission for gradlew
+
+    - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew
+      
+      
+     - name: Build APK
+      run: ./gradlew assemble ${{ matrix.flavor }}Release
+      
+      
   
 
     - name: Obfuscate APK
