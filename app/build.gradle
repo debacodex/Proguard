@@ -101,7 +101,7 @@ andResGuard {
 		"resources.arsc"
     ]
     sevenzip {
-        artifact = 'com.github.Leon406.AndResGuard:SevenZip:1.2.20'
+        artifact = 'com.tencent.mm:SevenZip:1.2.21'
            path = "SevenZip-linux-x86_64.exe"
     
     }
