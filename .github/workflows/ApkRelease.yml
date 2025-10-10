@@ -2,9 +2,7 @@ name: Android APK Release
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    tags: ['v*']
 
 jobs:
   build-and-release:
@@ -25,6 +23,7 @@ jobs:
 
     - name: Build Release APK
       run: ./gradlew assembleRelease
+      
   - name: Create AndResGuard configuration
       run: |
         cat > config.xml << 'EOF'
@@ -45,7 +44,6 @@ jobs:
           app/build/outputs/apk/release/app-release.apk \
           -config config.xml \
           -out app/build/outputs/apk/release/obfuscated
-
     - name: Create Release and Upload APK
       uses: softprops/action-gh-release@v2
       with:

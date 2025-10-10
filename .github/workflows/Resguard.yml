@@ -2,7 +2,9 @@ name: Android APK Release
 
 on:
   push:
-    tags: ['v*']
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build-and-release:
@@ -23,6 +25,8 @@ jobs:
 
     - name: Build Release APK
       run: ./gradlew assembleRelease
+
+
 
     - name: Create Release and Upload APK
       uses: softprops/action-gh-release@v2
