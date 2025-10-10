@@ -3,7 +3,7 @@ name: Build and Release APK with AndResGuard
 on:
   push:
     tags:
-      - 'v*'
+      - '*'
   workflow_dispatch:
 
 env:
