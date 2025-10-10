@@ -62,8 +62,8 @@ signingConfigs {
     }
 }
 andResGuard {
-  //   mappingFile =  file("./resource_mapping.txt")
-    mappingFile = null
+     mappingFile =  file("resource_mapping.txt")
+   // mappingFile = null
     use7zip = false
     useSign = true
     // It will keep the origin path of your resources when it's true
@@ -101,10 +101,10 @@ andResGuard {
 		//"resources.arsc"
     ]
     sevenzip {
-       // artifact = "io.github.leon406:SevenZip:1.2.23"
+        artifact = "io.github.leon406:SevenZip:1.2.23"
           // path = "SevenZip-linux-x86_64.exe"
           
-          artifact = 'com.tencent.mm:SevenZip:1.2.21'
+         // artifact = 'com.tencent.mm:SevenZip:1.2.21'
         //path = "/usr/local/bin/7za"
     
     }

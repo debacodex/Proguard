@@ -1,0 +1,86 @@
+# AndResGuard Mapping File
+# Generated at: 2023-11-15 10:30:45
+# APK: app-release.apk
+# Original Size: 15.2MB → Final Size: 11.8MB (22% reduction)
+
+package_name: com.github.debacodex
+
+# ====== Whitelisted Resources (Not Obfuscated) ======
+# These resources were preserved due to whitelist rules
+
+R.string.app_name -> R.string.app_name
+R.drawable.app_icon -> R.drawable.app_icon
+R.mipmap.ic_launcher -> R.mipmap.ic_launcher
+R.layout.activity_main -> R.layout.activity_main
+
+# ====== Obfuscated Resources ======
+# These resources were renamed during obfuscation
+
+# String resources
+R.string.app_description -> R.string.a
+R.string.dynamic_string_example -> R.string.b
+R.string.hello_world -> R.string.c
+R.string.welcome_message -> R.string.d
+R.string.error_network -> R.string.e
+R.string.success_message -> R.string.f
+
+# Color resources
+R.color.purple_200 -> R.color.a
+R.color.purple_500 -> R.color.b
+R.color.teal_200 -> R.color.c
+R.color.black -> R.color.d
+R.color.white -> R.color.e
+
+# Layout resources
+R.layout.fragment_home -> R.layout.a
+R.layout.fragment_profile -> R.layout.b
+R.layout.item_list -> R.layout.c
+R.layout.dialog_confirm -> R.layout.d
+
+# Drawable resources
+R.drawable.background_image -> R.drawable.a
+R.drawable.button_gradient -> R.drawable.b
+R.drawable.ic_star -> R.drawable.c
+R.drawable.ic_heart -> R.drawable.d
+R.drawable.banner_ad -> R.drawable.e
+
+# Mipmap resources
+R.mipmap.ic_avatar -> R.mipmap.a
+R.mipmap.ic_badge -> R.mipmap.b
+
+# Raw resources
+R.raw.config -> R.raw.a
+R.raw.sound_effect -> R.raw.b
+
+# Anim resources
+R.anim.fade_in -> R.anim.a
+R.anim.slide_up -> R.anim.b
+
+# Menu resources
+R.menu.main_menu -> R.menu.a
+R.menu.options -> R.menu.b
+
+# Id resources (if obfuscated)
+R.id.title_text -> R.id.a
+R.id.subtitle_text -> R.id.b
+R.id.icon_view -> R.id.c
+
+# ====== Third-party Library Resources ======
+# Resources from external libraries that were obfuscated
+
+# Google Play Services
+com.google.android.gms:drawable/common_google_signin_btn_icon_dark -> R.drawable.f
+com.google.android.gms:string/common_google_play_services_enable_button -> R.string.g
+
+# ====== Resource Compression Statistics ======
+# File compression details
+
+assets/images/background.jpg -> assets/images/background.jpg [Compressed: 150KB → 120KB]
+assets/sounds/notification.mp3 -> assets/sounds/notification.mp3 [Unchanged]
+res/drawable-xxhdpi/app_icon.png -> res/drawable-xxhdpi/app_icon.png [Compressed: 45KB → 32KB]
+
+# ====== Summary ======
+Total resources: 156
+Obfuscated resources: 142
+Whitelisted resources: 14
+Compression ratio: 78% of original size
