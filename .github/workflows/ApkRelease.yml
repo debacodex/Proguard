@@ -22,28 +22,8 @@ jobs:
       run: chmod +x ./gradlew
 
     - name: Build Release APK
-      run: ./gradlew assembleRelease
-      
-  - name: Create AndResGuard configuration
-      run: |
-        cat > config.xml << 'EOF'
-        <?xml version="1.0" encoding="UTF-8"?>
-        <resproguard>
-            <keepmapping value="mapping.txt"/>
-            <keepresource type="drawable" name="ic_launcher*"/>
-            <keepresource type="mipmap" name="ic_launcher*"/>
-            <keepresource type="layout" name="activity_main*"/>
-            <keepresource type="string" name="app_name"/>
-            <keepresource type="color" name="colorPrimary"/>
-        </resproguard>
-        EOF
+      run: ./gradlew resguardRelease
 
-    - name: Run AndResGuard
-      run: |
-        java -jar AndResGuard.jar \
-          app/build/outputs/apk/release/app-release.apk \
-          -config config.xml \
-          -out app/build/outputs/apk/release/obfuscated
     - name: Create Release and Upload APK
       uses: softprops/action-gh-release@v2
       with:
