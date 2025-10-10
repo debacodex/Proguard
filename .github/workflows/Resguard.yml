@@ -24,10 +24,10 @@ jobs:
 
     - name: Build APK
   
-      run: ./gradlew assemble${{ matrix.flavor }}Release
+      run: ./gradlew assemble ${{ matrix.flavor }}Release
       
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+      - name: Grant execute permission for gradlew
+      run: chmod +x ./gradlew
   
 
     - name: Obfuscate APK
