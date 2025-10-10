@@ -6,8 +6,7 @@ on:
       - '*'
   workflow_dispatch:
 
-env:
-  ANDRESGUARD_VERSION: '2.2.3'
+
 
 jobs:
   build-and-release:
@@ -29,10 +28,8 @@ jobs:
     - name: Download AndResGuard
       run: |
         # Fixed download URL
-        wget https://github.com/shwenzhang/AndResGuard/releases/download/$ANDRESGUARD_VERSION/AndResGuard-cli-$ANDRESGUARD_VERSION.jar -O AndResGuard.jar
-        # Alternative download if the above fails
-        # wget https://github.com/shwenzhang/AndResGuard/releases/download/$ANDRESGUARD_VERSION/AndResGuard-cli-$ANDRESGUARD_VERSION.jar
-
+        wget https://github.com/shwenzhang/AndResGuard/releases/download/2.2.3/AndResGuard-cli-2.2.3.jar
+        
     - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew
 
