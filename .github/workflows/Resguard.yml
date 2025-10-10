@@ -3,7 +3,7 @@ name: Build Flavors with AndResGuard
 on:
   push:
     tags:
-      - 'v*'
+      - '*'
 
 jobs:
   build-flavors:
