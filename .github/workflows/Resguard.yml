@@ -1,4 +1,4 @@
-name: Resources APK Release
+name: Res APK Release
 
 on:
   push:
