@@ -98,11 +98,14 @@ andResGuard {
         "*.jpg",
         "*.jpeg",
         "*.gif",
-		"resources.arsc"
+		//"resources.arsc"
     ]
     sevenzip {
-        artifact = "io.github.leon406:SevenZip:1.2.23"
+       // artifact = "io.github.leon406:SevenZip:1.2.23"
           // path = "SevenZip-linux-x86_64.exe"
+          
+          artifact = 'com.tencent.mm:SevenZip:1.2.21'
+        //path = "/usr/local/bin/7za"
     
     }
 
