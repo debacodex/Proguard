@@ -1,0 +1,61 @@
+name: Build and Release APK with AndResGuard
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+env:
+  ANDRESGUARD_VERSION: '2.2.3'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Download AndResGuard
+      run: |
+        wget https://github.com/shwenzhang/AndResGuard/releases/download/$ANDRESGUARD_VERSION/AndResGuard-cli-$ANDRESGUARD_VERSION.jar -O AndResGuard.jar
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x ./gradlew
+
+    - name: Build APK
+      run: ./gradlew assembleRelease
+
+    - name: Obfuscate APK with AndResGuard
+      run: |
+        java -jar AndResGuard.jar \
+          ./app/build/outputs/apk/release/app-release.apk \
+          -config config.xml \
+          -out ./app/build/outputs/apk/obfuscated/ \
+          -signature ../.keystore \
+          myalias \
+          mypassword \
+          mykeypassword
+
+    - name: Upload APK artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: obfuscated-apk
+        path: app/build/outputs/apk/obfuscated/*.apk
+        retention-days: 7
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: app/build/outputs/apk/obfuscated/*.apk
