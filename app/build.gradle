@@ -70,21 +70,14 @@ signingConfigs {
 
 
 andResGuard {
-    //mappingFile =  file("resource_mapping_app-release.txt")
+   // mappingFile =  file("resource_mapping_app-release.txt")
     mappingFile = null
-     use7zip = false
-    // useSign = true
-
-    // It will keep the origin path of your resources when it's true
+    use7zip = false
+    useSign = null
     keepRoot = false
-    // If set, name column in arsc those need to proguard will be kept to this value
     fixedResName = "debashis"
-    // It will merge the duplicated resources, but don't rely on this feature too much.
-    // it's always better to remove duplicated resource from repo
     mergeDuplicatedRes = true
 	
-   
-    
     whiteList = [
  
     ]
@@ -105,10 +98,6 @@ andResGuard {
     
     }
 
-    /**
-    * Optional: if finalApkBackupPath is null, AndResGuard will overwrite final apk
-    * to the path which assemble[Task] write to
-    **/
      finalApkBackupPath = "${project.rootDir}/final_apk/${project.name}-un-sign-release.apk"
 	
     digestalg = "SHA-256"
