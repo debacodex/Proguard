@@ -27,6 +27,6 @@ jobs:
     - name: Create Debug and Upload APK
       uses: softprops/action-gh-release@v2
       with:
-        files: app/build/outputs/apk/debug/Debacodex-Debug.apk
+        files: app/build/outputs/apk/debug/*.apk
         generate_release_notes: true
         token: ${{ secrets.RELEASE_TOKEN }}  # Use PAT instead of GITHUB_TOKEN
