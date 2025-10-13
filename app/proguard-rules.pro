@@ -1,1 +1,3 @@
-#-keep class com.github.debacodex.model.*
+-mergeinterfacesaggressively
+
+-overloadaggressively
