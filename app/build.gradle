@@ -65,7 +65,7 @@ andResGuard {
      //mappingFile =  file("resource_mapping.txt")
     mappingFile = null
     use7zip = false
-    useSign = true
+   // useSign = true
     // It will keep the origin path of your resources when it's true
     keepRoot = false
     // If set, name column in arsc those need to proguard will be kept to this value
@@ -74,7 +74,7 @@ andResGuard {
     // it's always better to remove duplicated resource from repo
     mergeDuplicatedRes = true
     whiteList = [
-	    // for your icon
+	   /* // for your icon
         "R.drawable.icon",
         "R.mipmap.ic_launcher",
         "R.mipmap.ic_launcher_round",
@@ -91,7 +91,7 @@ andResGuard {
         // 保持style名称
         "R.style.*",
         // 保持attr名称
-        "R.attr.*"
+        "R.attr.*" */
     ]
     compressFilePattern = [
         "*.png",
@@ -113,7 +113,7 @@ andResGuard {
     * Optional: if finalApkBackupPath is null, AndResGuard will overwrite final apk
     * to the path which assemble[Task] write to
     **/
-    // finalApkBackupPath = "${project.rootDir}/final.apk"
+     finalApkBackupPath = "${project.rootDir}/final.apk"
 
     /**
     * Optional: Specifies the name of the message digest algorithm to user when digesting the entries of JAR file
