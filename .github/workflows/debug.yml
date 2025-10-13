@@ -1,4 +1,4 @@
-name: Android APK Release
+name: Android APK Debug
 
 on:
   push:
@@ -21,10 +21,10 @@ jobs:
     - name: Make gradlew executable
       run: chmod +x ./gradlew
 
-    - name: Build Release APK
+    - name: Build Debug APK
       run: ./gradlew assembleDebug
 
-    - name: Create Release and Upload APK
+    - name: Create Debug and Upload APK
       uses: softprops/action-gh-release@v2
       with:
         files: app/build/outputs/apk/debug/Debacodex-Debug.apk
