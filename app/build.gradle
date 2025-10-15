@@ -73,7 +73,7 @@ andResGuard {
    // mappingFile =  file("resource_mapping_app-release.txt")
     mappingFile = null
     use7zip = false
-    useSign = null
+   // useSign = null
     keepRoot = false
     fixedResName = "debashis"
     mergeDuplicatedRes = true
