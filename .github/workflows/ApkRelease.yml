@@ -28,5 +28,7 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         files: app/build/outputs/apk/release/*.apk
+        finalApkBackupPath : "${project.rootDir}/final_apk/${project.name}-release.apk"
+	
         generate_release_notes: true
         token: ${{ secrets.RELEASE_TOKEN }}  # Use PAT instead of GITHUB_TOKEN
