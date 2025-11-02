@@ -27,7 +27,7 @@ jobs:
     - name: Create Release and Upload APK
       uses: softprops/action-gh-release@v2
       with:
-        files: app/build/outputs/apk/release/${project.name}-release.apk
+        files: app/build/outputs/apk/release/*.apk
        # files : ${project.rootDir}/final_apk/${project.name}-release.apk
 	
         generate_release_notes: true
