@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="app_name">Debashis Codex</string>
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
+   
+    <string name="default_web_client_id" translatable="false">630324853939-ii5vt75r6g9d94d3chsot63lfnjgatip.apps.googleusercontent.com</string>
+    
+	
+  
+</resources>
